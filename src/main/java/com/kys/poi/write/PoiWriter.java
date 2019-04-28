@@ -16,6 +16,7 @@ import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import com.kys.poi.mapping.CellInfo;
 import com.kys.poi.mapping.CellInfos;
 import com.kys.poi.style.CellStyleBuilder;
+import com.kys.util.ObjectUtils;
 import com.kys.util.ResourceUtil;
 
 import lombok.AccessLevel;
@@ -236,6 +237,8 @@ public class PoiWriter implements Closeable {
     public PoiWriter moveRow(int rowIndex) {
         if (rowIndex < 0) {
             throw new IllegalArgumentException("음수가 들어왔습니다. ( " + rowIndex + " )");
+        }else if(config.isMaxRow(rowIndex)) {
+            throw new IllegalArgumentException("최대 row 수를 초과 하였습니다. (" + rowIndex + ")" );
         }
 
         this.rowIndex = rowIndex;
@@ -426,6 +429,9 @@ public class PoiWriter implements Closeable {
      * 타이틀 추가
      */
     private void addTitle() {
+        
+        if(ObjectUtils.isNull(cellInfos)) return;
+        
         for (CellInfo cellInfo : cellInfos) {
             addTitle(cellInfo.getTitleName(), cellInfo.getWidth());
         }
