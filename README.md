@@ -1,80 +1,118 @@
 # poi-wrapper
-poi wrapper 
 
-apache poi 를 좀더 편하게 사용하기 위한 util
+## 1. 설명
+* apache poi 를 좀더 편하게 사용하기 위한 wrapper class 입니다.
+* servlet에서 사용시에는 FileOutPutStream이 아닌 ServletResponse에 OutputStream 사용하여 처리 가능 합니다.
 
-> XSSFWorbook 사용예제
-<pre><code>
-    @Test
-    public void 엑셀파일생성() throws Exception {
-        PoiWriter writer = PoiWriter.getBuilder().setXSSFWorkbook()
-                                                 .setOutputStream(new FileOutputStream("D:\\공부\\엑셀테스트\\excel_test.xlsx"))
-                                                 .build();
+## 2. 의존성
 
-        writer.createSheet("testSheet");
+* poi 3.17 기준으로 작성되었으며, java6 이상에서 사용 가능합니다.
 
-        for (int index = 0; index < 100; index++) {
-            writer.addCell(String.valueOf(index))
-                  .addCell(index)
-                  .nextRow();
-        }
+```xml
+<dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi</artifactId>
+    <version>3.17</version>
+</dependency>
 
-        writer.write()
-              .close();
+<dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi-ooxml</artifactId>
+    <version>3.17</version>
+</dependency>
+
+<dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi-scratchpad</artifactId>
+    <version>3.17</version>
+</dependency>
+
+<dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi-ooxml-schemas</artifactId>
+    <version>3.17</version>
+</dependency>
+```
+### 3. 사용예제
+
+* XSSFWorkbook 사용예제
+```java
+
+@Test
+public void 엑셀파일생성() throws Exception {
+    PoiWriter writer = PoiWriter.getBuilder()
+                                .setXSSFWorkbook()
+                                .setOutputStream(new FileOutputStream("D:\\공부\\엑셀테스트\\excel_test.xlsx"))
+                                .build();
+
+    writer.createSheet("testSheet");
+
+    for (int index = 0; index < 100; index++) {
+        writer.addCell(String.valueOf(index))
+              .addCell(index)
+              .nextRow();
     }
-</pre></code>
 
-> SXSSFWorbook 사용예제
-- SXSSFWorkbook의 경우 스트리밍 방식으로 엑셀을 출력하며, 대용량 엑셀 파일 생성시 사용에 적합합니다.
-<pre><code>
-    @Test
-    public void 스트링엑셀파일생성() throws Exception {
-        PoiWriter writer = PoiWriter.getBuilder()
-                                    .setSXSSFWorkbook(100)
-                                    .setOutputStream(new FileOutputStream("D:\\공부\\엑셀테스트\\streming_excel_test.xlsx"))
-                                    .build();
+    writer.write()
+          .close();
+}
 
-        writer.createSheet("testSheet");
+```
 
-        for (int index = 0; index < 2000000; index++) {
-            writer.addCell(String.valueOf(index))
-                  .addCell(index)
-                  .nextRow();
-        }
+* SXSSFWorkbook 사용예제
 
-        writer.write()
-              .close();
+    - SXSSFWorkbook의 경우 스트리밍 방식으로 엑셀을 출력하며, 대용량 엑셀 파일 생성시 사용에 적합합니다.
+
+```java
+@Test
+public void 스트링엑셀파일생성() throws Exception {
+    PoiWriter writer = PoiWriter.getBuilder()
+                                .setSXSSFWorkbook(100)
+                                .setOutputStream(new FileOutputStream("D:\\공부\\엑셀테스트\\streming_excel_test.xlsx"))
+                                .build();
+
+    writer.createSheet("testSheet");
+
+    for (int index = 0; index < 2000000; index++) {
+        writer.addCell(String.valueOf(index))
+              .addCell(index)
+              .nextRow();
     }
-</pre></code>
 
-> HSSFWorkBook 사용예제
-- .xlsx가 아닌.xls 확장자의 엑셀파일 생성시 사용합니다.
-<pre><code>
-    @Test
-    public void 구버전엑셀파일생성() throws Exception {
-        PoiWriter writer = PoiWriter.getBuilder()
-                                    .setHSSFWorkBook()
-                                    .setOutputStream(new FileOutputStream("D:\\공부\\엑셀테스트\\old_excel_test.xls"))
-                                    .build();
+    writer.write()
+          .close();
+}
+```
 
-        writer.createSheet("testSheet");
+* HSSFWorkBook 사용예제
+    - .xlsx가 아닌.xls 확장자의 엑셀파일 생성시 사용합니다.
 
-        for (int index = 0; index < 1000; index++) {
-            writer.addCell(String.valueOf(index))
-                  .addCell(index)
-                  .nextRow();
-        }
+```java
+@Test
+public void 구버전엑셀파일생성() throws Exception {
+    PoiWriter writer = PoiWriter.getBuilder()
+                                .setHSSFWorkBook()
+                                .setOutputStream(new FileOutputStream("D:\\공부\\엑셀테스트\\old_excel_test.xls"))
+                                .build();
 
-        writer.write()
-              .close();
+    writer.createSheet("testSheet");
+
+    for (int index = 0; index < 1000; index++) {
+        writer.addCell(String.valueOf(index))
+              .addCell(index)
+              .nextRow();
     }
-</pre></code>
 
-> 사용자 지정 셀 스타일 객체 생성 및 지정
+    writer.write()
+          .close();
+}
+```
 
-- interface CellStyleBuilder 구현
+* 사용자 지정 셀 스타일 객체 생성 및 지정
 
-<pre><code>
+    - interface CellStyleBuilder 구현
+
+```java
 
     // 스타일 생성울 위한 builder interface
     @FunctionalInterface
@@ -144,4 +182,4 @@ apache poi 를 좀더 편하게 사용하기 위한 util
               .close();
             
     }
-</pre></code>
+```

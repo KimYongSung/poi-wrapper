@@ -33,8 +33,8 @@ public class ReflectionExcelResultHandler extends GenericExcelResultHandler<Obje
      * @param poiWriter 엑셀 생성자
      * @param sheetName sheet 명
      * @param clazz     mybatis parameterType class 정보
-     * @param mappings  엑셀파일 매핑 정보
-     * @throws Exception
+     * @param cellInfos  엑셀파일 매핑 정보
+     * @throws Exception 초기화 중 에러 발생시
      */
     public ReflectionExcelResultHandler(PoiWriter poiWriter, String sheetName, Class<?> clazz, CellInfos cellInfos) {
         super(poiWriter, sheetName, cellInfos); 
@@ -56,7 +56,7 @@ public class ReflectionExcelResultHandler extends GenericExcelResultHandler<Obje
             }
 
             if (ObjectUtils.isNull(cellInfo.getDataType())) {
-                throw new IllegalArgumentException(cellInfo.getTitleName() + "의 DataType이 누락되었습니다.");
+                throw new IllegalArgumentException(cellInfo.getDataType() + "의 DataType이 누락되었습니다.");
             }
 
             String fieldName = cellInfo.getFieldName();

@@ -1,14 +1,10 @@
 package com.kys.poi.write;
 
-import java.io.FileOutputStream;
-
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
-import org.apache.poi.ss.usermodel.BorderStyle;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.usermodel.*;
 import org.junit.Test;
+
+import java.io.FileOutputStream;
 
 public class PoiWriterTest {
 

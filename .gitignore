@@ -1,1 +1,8 @@
+# build target
 /target/
+
+# ide config
+.idea
+.settings
+.classpath
+.project

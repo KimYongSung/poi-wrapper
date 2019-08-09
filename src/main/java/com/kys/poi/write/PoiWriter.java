@@ -1,26 +1,19 @@
 package com.kys.poi.write;
 
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.OutputStream;
-
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.xssf.streaming.SXSSFWorkbook;
-
 import com.kys.poi.mapping.CellInfo;
 import com.kys.poi.mapping.CellInfos;
 import com.kys.poi.style.CellStyleBuilder;
 import com.kys.util.ObjectUtils;
-import com.kys.util.ResourceUtil;
-
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * org.apache.poi 를 이용한 excel 생성 클래스 <br>
@@ -29,13 +22,13 @@ import lombok.RequiredArgsConstructor;
  * <br>
  * <li>.xlsx 확장자는 row 1,040,000건을 넘어 갈 경우 다음 sheet에 데이터 출력</li>
  * <li>.xls 확장자는 row 60,000건을 넘어 갈 경우 다음 sheet에 데이터 출력</li> <br>
- * 참조 : {@link PoiWriterTest} <br>
  * <br>
  * <br>
  * 
  * @author kys0213
  * @since 2018. 4. 30.
  */
+@Slf4j
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class PoiWriter implements Closeable {
 
@@ -94,7 +87,7 @@ public class PoiWriter implements Closeable {
     /**
      * 행 위치
      */
-    private int columnIndex = 0;
+    private int cellIndex = 0;
 
     /**
      * Builder 생성
@@ -111,17 +104,24 @@ public class PoiWriter implements Closeable {
      * @param sheetName
      */
     public PoiWriter createSheet(String sheetName) {
-        this.sheetIndex = 0;
+        resetSheetIndex();
         this.sheetName = sheetName;
         createSheet();
         return this;
     }
 
     /**
+     * sheet index 초기화
+     */
+    private void resetSheetIndex() {
+        this.sheetIndex = 0;
+    }
+
+    /**
      * sheet 생성
      * 
      * @param sheetName
-     * @param mappingList
+     * @param cellInfos
      */
     public PoiWriter createSheet(String sheetName, CellInfos cellInfos) {
         return this.createSheet(sheetName)
@@ -131,7 +131,6 @@ public class PoiWriter implements Closeable {
     /**
      * 타이틀 셋팅
      * 
-     * @param mappingList
      */
     public PoiWriter setCellInfos(CellInfos cellInfos) {
         this.cellInfos = cellInfos;
@@ -141,7 +140,6 @@ public class PoiWriter implements Closeable {
     /**
      * 타이틀 셋팅
      * 
-     * @param mappingList
      */
     private PoiWriter setCellInfos() {
         addTitle();
@@ -180,7 +178,7 @@ public class PoiWriter implements Closeable {
      * @param endRow
      */
     public PoiWriter currentCellRowMerged(int startRow, int endRow) {
-        cellMerged(startRow, endRow, columnIndex, columnIndex);
+        cellMerged(startRow, endRow, cellIndex, cellIndex);
         return this;
     }
 
@@ -195,10 +193,17 @@ public class PoiWriter implements Closeable {
             setCellInfos();
         } else {
             // row 추가
-            rowIndex++;
-            createRow(rowIndex);
+            nextRowIndex();
+            createRow();
         }
         return this;
+    }
+
+    /**
+     * 다음 row 위치로 이동
+     */
+    private void nextRowIndex() {
+        rowIndex++;
     }
 
     /**
@@ -216,7 +221,7 @@ public class PoiWriter implements Closeable {
      * @return
      */
     public int currentColumn() {
-        return columnIndex;
+        return cellIndex;
     }
 
     /**
@@ -235,6 +240,7 @@ public class PoiWriter implements Closeable {
      * @throws IllegalArgumentException 음수일 경우 발생
      */
     public PoiWriter moveRow(int rowIndex) {
+
         if (rowIndex < 0) {
             throw new IllegalArgumentException("음수가 들어왔습니다. ( " + rowIndex + " )");
         }else if(config.isMaxRow(rowIndex)) {
@@ -242,7 +248,9 @@ public class PoiWriter implements Closeable {
         }
 
         this.rowIndex = rowIndex;
-        createRow(this.rowIndex);
+
+        createRow();
+
         return this;
     }
 
@@ -252,7 +260,7 @@ public class PoiWriter implements Closeable {
      * @return
      */
     public PoiWriter nextCell() {
-        columnIndex++;
+        cellIndex++;
         return this;
     }
 
@@ -263,11 +271,12 @@ public class PoiWriter implements Closeable {
      * @throws IllegalArgumentException 음수일 경우 발생
      */
     public PoiWriter moveCell(int cellIndex) {
+
         if (cellIndex < 0) {
             throw new IllegalArgumentException("음수가 들어왔습니다. ( " + cellIndex + " )");
         }
 
-        columnIndex = cellIndex;
+        this.cellIndex = cellIndex;
         return this;
     }
 
@@ -393,10 +402,11 @@ public class PoiWriter implements Closeable {
 
     /**
      * Excel 파일 출력
-     * 
+     *
      * @throws IOException
      */
     public PoiWriter write() throws IOException {
+
         workBook.write(outputStream);
 
         // SXSS 일 경우 dispose 호출
@@ -412,7 +422,11 @@ public class PoiWriter implements Closeable {
      */
     @Override
     public void close() {
-        ResourceUtil.close(outputStream);
+        try {
+            outputStream.close();
+        } catch (IOException ignore) {
+            log.warn(ignore.toString());
+        }
     }
 
     /**
@@ -448,13 +462,27 @@ public class PoiWriter implements Closeable {
         sheet = workBook.createSheet(sheetName);
 
         // 2. sheet 인덱스 증가
-        sheetIndex++;
+        nextSheetIndex();
 
         // 3. 열 위치 초기화
-        rowIndex = 0;
+        resetRowIndex();
 
         // 4. row 생성
-        createRow(rowIndex);
+        createRow();
+    }
+
+    /**
+     * 다음 sheet index로 변경
+     */
+    private void nextSheetIndex() {
+        sheetIndex++;
+    }
+
+    /**
+     * Row 인덱스 초기화
+     */
+    private void resetRowIndex() {
+        rowIndex = 0;
     }
 
     /**
@@ -466,10 +494,10 @@ public class PoiWriter implements Closeable {
      */
     private void createCell(CellType type, CellStyle cellStype) {
 
-        cell = row.getCell(columnIndex);
+        cell = row.getCell(cellIndex);
 
         if (cell == null) {
-            cell = row.createCell(columnIndex, type);
+            cell = row.createCell(cellIndex, type);
             cell.setCellStyle(cellStype);
         }
     }
@@ -477,15 +505,22 @@ public class PoiWriter implements Closeable {
     /**
      * row 생성
      */
-    private void createRow(int rowIndex) {
+    private void createRow(){
 
         // 1. 행 위치 초기화
-        columnIndex = 0;
+        resetCellIndex();
 
         // 2. row 생성
         row = sheet.getRow(rowIndex);
         if (row == null) {
             row = sheet.createRow(rowIndex);
         }
+    }
+
+    /**
+     * 행 위치 초기화
+     */
+    private void resetCellIndex() {
+        cellIndex = 0;
     }
 }
