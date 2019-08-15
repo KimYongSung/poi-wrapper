@@ -8,30 +8,20 @@
 
 * poi 3.17 기준으로 작성되었으며, java6 이상에서 사용 가능합니다.
 
-```xml
-<dependency>
-    <groupId>org.apache.poi</groupId>
-    <artifactId>poi</artifactId>
-    <version>3.17</version>
-</dependency>
-
-<dependency>
-    <groupId>org.apache.poi</groupId>
-    <artifactId>poi-ooxml</artifactId>
-    <version>3.17</version>
-</dependency>
-
-<dependency>
-    <groupId>org.apache.poi</groupId>
-    <artifactId>poi-scratchpad</artifactId>
-    <version>3.17</version>
-</dependency>
-
-<dependency>
-    <groupId>org.apache.poi</groupId>
-    <artifactId>poi-ooxml-schemas</artifactId>
-    <version>3.17</version>
-</dependency>
+```gradle
+dependencies {
+    testImplementation "junit:junit:4.12"
+    testImplementation 'org.hamcrest:hamcrest-all:1.3'
+    testImplementation 'org.mockito:mockito-core:2.27.0'
+    implementation 'org.projectlombok:lombok:1.18.6'
+    implementation 'com.googlecode.concurrentlinkedhashmap:concurrentlinkedhashmap-lru:1.4.2'
+    implementation 'org.slf4j:slf4j-api:1.7.25'
+    annotationProcessor 'org.projectlombok:lombok:1.18.6'
+    implementation 'org.apache.poi:poi:3.17'
+    implementation 'org.apache.poi:poi-ooxml:3.17'
+    implementation 'org.apache.poi:poi-scratchpad:3.17'
+    implementation 'org.apache.poi:poi-ooxml-schemas:3.17'
+}
 ```
 ### 3. 사용예제
 
