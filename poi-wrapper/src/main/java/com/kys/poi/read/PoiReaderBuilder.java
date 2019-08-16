@@ -25,6 +25,8 @@ public class PoiReaderBuilder<T> {
 
     private boolean isFirstRowSkip = false;
 
+    private boolean isSingletonObject = false;
+
     private PoiRowHandler<T> rowHandler;
 
     private BasicCelllHandlerFactory cellHandlers = new BasicCelllHandlerFactory();
@@ -102,6 +104,15 @@ public class PoiReaderBuilder<T> {
     }
 
     /**
+     * 첫번째 row skip 여부
+     * @return
+     */
+    public PoiReaderBuilder<T> singletonObject(){
+        this.isSingletonObject = true;
+        return this;
+    }
+
+    /**
      * RowHandler 설정
      * @param rowHandler
      * @return
@@ -116,6 +127,7 @@ public class PoiReaderBuilder<T> {
 
         if(rowMapper == null){
             rowMapper = new BasicPoiRowReader(clazz, cellInfos);
+            rowMapper.isSingleton(this.isSingletonObject);
         }
 
         if(rowHandler == null){

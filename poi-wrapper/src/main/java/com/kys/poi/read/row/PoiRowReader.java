@@ -25,6 +25,12 @@ public interface PoiRowReader<T> {
     void setRowHandler(PoiRowHandler<T> rowHandler);
 
     /**
+     * row 별로 생성하는 object의 singleton 유무
+     * @param isSingleton
+     */
+    void isSingleton(boolean isSingleton);
+
+    /**
      * Row 파싱 시작
      */
     void start();

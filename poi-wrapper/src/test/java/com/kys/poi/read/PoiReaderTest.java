@@ -12,17 +12,17 @@ public class PoiReaderTest {
     @Test
     public void 엑셀파일읽기테스트() throws Exception {
 
-        CellInfos cellInfo = CellInfos.newInstance();
+        CellInfos cellInfos = CellInfos.newInstance();
         
         PoiReader reader = PoiReader.builder(TestVO.class)
                                     .url(ResourceUtil.getURL("F:\\poiWrapperTest\\streming_excel_test.xlsx"))
-                                    .cellNames(cellInfo.add(CellInfo.builder()
+                                    .cellNames(cellInfos.add(CellInfo.builder()
                                                                     .fieldName("test1")
                                                                     .build())
-                                                       .add(CellInfo.builder()
+                                                        .add(CellInfo.builder()
                                                                     .fieldName("test2")
-                                                                    .build())
-                                                       )
+                                                                    .build()))
+                                    .singletonObject()
                                     .firstRowSkip()
                                     .poiRowHandler(new PoiRowHandler<TestVO>() {
                                         public void handler(TestVO obj) {

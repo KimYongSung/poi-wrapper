@@ -22,9 +22,11 @@ public class BasicPoiRowReader<T> implements PoiRowReader<T> {
     private final Class<T> clazz;
 
     private final CellInfos cellInfos;
-    
+
+    private boolean isSingleton;
+
     private BasicCelllHandlerFactory cellHandlers;
-    
+
     private PoiRowHandler<T> rowHandler;
 
     private T obj;
@@ -51,8 +53,14 @@ public class BasicPoiRowReader<T> implements PoiRowReader<T> {
     }
 
     @Override
+    public void isSingleton(boolean isSingleton) {
+        this.isSingleton = isSingleton;
+    }
+
+    @Override
     public void start(){
-        obj = ReflectionUtil.newInstance(clazz);
+        obj = ( obj == null ) ? ReflectionUtil.newInstance(clazz) :
+                ( isSingleton ) ? obj : ReflectionUtil.newInstance(clazz);
     }
 
     @Override
