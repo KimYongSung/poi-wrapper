@@ -1,5 +1,7 @@
 # poi-wrapper
 
+[![Build Status](https://travis-ci.org/KimYongSung/poi-wrapper.svg?branch=master)](https://travis-ci.org/KimYongSung/poi-wrapper)
+
 ## 1. 설명
 * apache poi 를 좀더 편하게 사용하기 위한 wrapper class 입니다.
 * servlet에서 사용시에는 FileOutPutStream이 아닌 ServletResponse에 OutputStream 사용하여 처리 가능 합니다.
@@ -8,21 +10,6 @@
 
 * poi 3.17 기준으로 작성되었으며, java6 이상에서 사용 가능합니다.
 
-```gradle
-dependencies {
-    testImplementation "junit:junit:4.12"
-    testImplementation 'org.hamcrest:hamcrest-all:1.3'
-    testImplementation 'org.mockito:mockito-core:2.27.0'
-    implementation 'org.projectlombok:lombok:1.18.6'
-    implementation 'com.googlecode.concurrentlinkedhashmap:concurrentlinkedhashmap-lru:1.4.2'
-    implementation 'org.slf4j:slf4j-api:1.7.25'
-    annotationProcessor 'org.projectlombok:lombok:1.18.6'
-    implementation 'org.apache.poi:poi:3.17'
-    implementation 'org.apache.poi:poi-ooxml:3.17'
-    implementation 'org.apache.poi:poi-scratchpad:3.17'
-    implementation 'org.apache.poi:poi-ooxml-schemas:3.17'
-}
-```
 ### 3. 사용예제
 
 * XSSFWorkbook 사용예제
