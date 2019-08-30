@@ -1,5 +1,1 @@
-rootProject.name = 'poi-wrapper-modules'
-
-include 'poi-wrapper'
-include 'poi-wrapper-mybatis'
-
+rootProject.name = 'poi-wrapper'
