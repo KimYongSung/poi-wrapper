@@ -1,6 +1,7 @@
 # poi-wrapper
 
 [![Build Status](https://travis-ci.org/KimYongSung/poi-wrapper.svg?branch=master)](https://travis-ci.org/KimYongSung/poi-wrapper)
+[![Coverage Status](https://coveralls.io/repos/github/KimYongSung/poi-wrapper/badge.svg?branch=master)](https://coveralls.io/github/KimYongSung/poi-wrapper?branch=master)
 
 ## 1. 설명
 * apache poi 를 좀더 편하게 사용하기 위한 wrapper class 입니다.
