@@ -1,8 +1,13 @@
+
+plugins {
+    id "java"
+    id "java-library"
+    id "jacoco"
+    id "com.github.kt3k.coveralls" version "2.8.4"
+}
+
 group 'com.kys'
 version '1.0'
-
-apply plugin: 'java'
-apply plugin: 'java-library'
 
 repositories {
     mavenCentral()
@@ -13,6 +18,13 @@ repositories {
 
 sourceCompatibility = '1.6'
 targetCompatibility = '1.6'
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true // coveralls plugin depends on xml format report
+        html.enabled = true
+    }
+}
 
 dependencies {
     implementation 'org.projectlombok:lombok:1.18.6'
