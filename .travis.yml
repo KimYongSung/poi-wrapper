@@ -18,7 +18,7 @@ script: "./gradlew clean build"
 notifications:
   email:
     recipients:
-      - dydtjs0245@gmail.com
+      - dydtjd0245@gmail.com
 
 after_success:
   - ./gradlew jacocoTestReport coveralls

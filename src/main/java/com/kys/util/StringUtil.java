@@ -31,7 +31,7 @@ public class StringUtil {
     /**
      * null 일 경우 "" 으로 변경
      * 
-     * @param str
+     * @param obj
      * @return
      */
     public static String nullToEmpty(Object obj) {
@@ -56,7 +56,7 @@ public class StringUtil {
      * null 일 경우 replace 문자열로 변경
      * 
      * @param str
-     * @param replace
+     * @param nullStr
      * @return
      */
     public static String nullToStr(Object str, String nullStr) {
@@ -107,7 +107,6 @@ public class StringUtil {
      * 정수형이 아니거나 null 일 경우 -1로 변환
      * 
      * @param value
-     * @param defaultValue
      * @return
      */
     public static int toInt(String value) {

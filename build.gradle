@@ -27,7 +27,6 @@ jacocoTestReport {
 }
 
 dependencies {
-    implementation 'org.projectlombok:lombok:1.18.6'
     implementation 'com.googlecode.concurrentlinkedhashmap:concurrentlinkedhashmap-lru:1.4.2'
     implementation 'org.slf4j:slf4j-api:1.7.25'
     implementation 'org.apache.poi:poi:3.17'
@@ -38,7 +37,6 @@ dependencies {
     testImplementation "junit:junit:4.12"
     testImplementation 'org.hamcrest:hamcrest-all:1.3'
     testImplementation 'org.mockito:mockito-core:2.27.0'
-    annotationProcessor 'org.projectlombok:lombok:1.18.6'
 }
 
 

@@ -1,11 +1,9 @@
 package com.kys.poi.read;
 
 import com.kys.poi.read.row.PoiRowReader;
-import lombok.RequiredArgsConstructor;
 import org.apache.poi.xssf.eventusermodel.XSSFSheetXMLHandler.SheetContentsHandler;
 import org.apache.poi.xssf.usermodel.XSSFComment;
 
-@RequiredArgsConstructor
 public class PoiSheetHandler implements SheetContentsHandler {
 
     /**
@@ -22,7 +20,12 @@ public class PoiSheetHandler implements SheetContentsHandler {
      * 현재 진행하는 row skip 여부
      */
     private boolean isSkip = false;
-    
+
+
+    public PoiSheetHandler(PoiRowReader<?> reader) {
+        this.reader = reader;
+    }
+
     /**
      * PoiSheetHandler
      * 

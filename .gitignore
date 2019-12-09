@@ -1,8 +1,10 @@
 # build target
 /target/
+/build/
 
 # ide config
 .idea
 .settings
 .classpath
 .project
+.gradle

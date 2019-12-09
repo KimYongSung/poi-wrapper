@@ -1,47 +1,37 @@
 package com.kys.poi.mapping;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import javafx.scene.control.Cell;
 
 import java.lang.reflect.Field;
 
 /**
  * cell 매핑 정보
  */
-@ToString
 public class CellInfo {
 
     /**
      * 엑셀 sheet 셀명
      */
-    @Getter
     private String cellName;
 
     /**
      * DB 데이터 필드 Key 명
      */
-    @Getter
     private String fieldName;
 
     /**
      * DataType
      */
-    @Getter
     private DataType dataType;
 
     /**
      * 엑셀 열 너비
      */
-    @Getter
     private int width;
 
     /**
      * Field 정보
      */
-    @Setter
-    @Getter
     private Field field;
 
     /**
@@ -60,12 +50,86 @@ public class CellInfo {
         return dataType == null ? true : this.dataType.equals(DataType.STRING);
     }
 
-    @Builder
-    private CellInfo(String cellName, String fieldName, DataType dataType, int width) {
+    public static CellInfoBuilder builder(){
+        return new CellInfoBuilder();
+    }
 
+    public String getCellName() {
+        return cellName;
+    }
+
+    public String getFieldName() {
+        return fieldName;
+    }
+
+    public DataType getDataType() {
+        return dataType;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public Field getField() {
+        return field;
+    }
+
+    public void setField(Field field) {
+        this.field = field;
+    }
+
+    private CellInfo(String cellName, String fieldName, DataType dataType, int width) {
         this.cellName = cellName;
         this.fieldName = fieldName;
         this.dataType = dataType;
         this.width = width;
     }
+
+    public static class CellInfoBuilder{
+        /**
+         * 엑셀 sheet 셀명
+         */
+        private String cellName;
+
+        /**
+         * DB 데이터 필드 Key 명
+         */
+        private String fieldName;
+
+        /**
+         * DataType
+         */
+        private DataType dataType;
+
+        /**
+         * 엑셀 열 너비
+         */
+        private int width;
+
+        public CellInfoBuilder cellName(String cellName){
+            this.cellName = cellName;
+            return this;
+        }
+
+        public CellInfoBuilder fieldName(String fieldName){
+            this.fieldName = fieldName;
+            return this;
+        }
+
+        public CellInfoBuilder dataType(DataType dataType){
+            this.dataType = dataType;
+            return this;
+        }
+
+        public CellInfoBuilder width(int width){
+            this.width = width;
+            return this;
+        }
+
+        public CellInfo build(){
+            return new CellInfo(cellName, fieldName, dataType, width);
+        }
+
+    }
+
 }

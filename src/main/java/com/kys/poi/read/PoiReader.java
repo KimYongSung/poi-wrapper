@@ -2,7 +2,6 @@ package com.kys.poi.read;
 
 import com.kys.poi.read.row.PoiRowReader;
 import com.kys.util.ResourceUtil;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.openxml4j.opc.PackageAccess;
 import org.apache.poi.ss.usermodel.DataFormatter;
@@ -30,7 +29,6 @@ import java.net.URL;
  * @author kys0213
  * @date 2019. 3. 25.
  */
-@Slf4j
 public class PoiReader implements Closeable {
 
     private final OPCPackage opk;
@@ -86,8 +84,6 @@ public class PoiReader implements Closeable {
         try {
             stream = sheets.next();
 
-            log.debug("sheetName : {} ", sheets.getSheetName());
-            
             processSheet(handler, stream);
 
         } finally {

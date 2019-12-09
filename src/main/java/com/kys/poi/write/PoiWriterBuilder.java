@@ -1,20 +1,15 @@
 package com.kys.poi.write;
 
-import java.io.OutputStream;
-
+import com.kys.poi.style.CellStyleBuilder;
+import com.kys.poi.style.DefaultCellStyles;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import com.kys.poi.style.CellStyleBuilder;
-import com.kys.poi.style.DefaultCellStyles;
+import java.io.OutputStream;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public final class PoiWriterBuilder {
 
     /**
@@ -45,6 +40,8 @@ public final class PoiWriterBuilder {
     private CellStyleBuilder titleBuilder;
     private CellStyleBuilder numberBuilder;
     private CellStyleBuilder stringBuilder;
+
+    protected PoiWriterBuilder() {}
 
     public PoiWriter build() {
 

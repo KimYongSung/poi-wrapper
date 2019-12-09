@@ -111,7 +111,7 @@ public class ResourceUtil {
     /**
      * File을 URL 객체로 변경
      * 
-     * @param file
+     * @param path
      * @return
      * @throws RuntimeException 처리 중 예외 발생시
      */

@@ -47,7 +47,7 @@ public class PoiWriterTest {
 
         writer.createSheet("testSheet");
 
-        for (int index = 0; index < 1000; index++) {
+        for (int index = 0; index <= 2000; index++) {
             writer.addCell(String.valueOf(index))
                   .addCell(index)
                   .nextRow();

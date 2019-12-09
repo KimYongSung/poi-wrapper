@@ -104,7 +104,7 @@ public class PoiReaderBuilder<T> {
     }
 
     /**
-     * 첫번째 row skip 여부
+     * RowHandler에서 object mapping을 singleton으로 설정하여 재사용할지 여부
      * @return
      */
     public PoiReaderBuilder<T> singletonObject(){

@@ -4,10 +4,12 @@ import com.kys.poi.mapping.CellInfo;
 import com.kys.poi.mapping.CellInfos;
 import com.kys.poi.style.CellStyleBuilder;
 import com.kys.util.ObjectUtils;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 
@@ -28,8 +30,6 @@ import java.io.OutputStream;
  * @author kys0213
  * @since 2018. 4. 30.
  */
-@Slf4j
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class PoiWriter implements Closeable {
 
     private static final String EMPTY = "";
@@ -96,6 +96,12 @@ public class PoiWriter implements Closeable {
      */
     public static PoiWriterBuilder getBuilder() {
         return new PoiWriterBuilder();
+    }
+
+    protected PoiWriter(WriterConfig config, Workbook workBook, OutputStream outputStream) {
+        this.config = config;
+        this.workBook = workBook;
+        this.outputStream = outputStream;
     }
 
     /**
@@ -431,7 +437,6 @@ public class PoiWriter implements Closeable {
         try {
             outputStream.close();
         } catch (IOException ignore) {
-            log.warn(ignore.toString());
         }
     }
 

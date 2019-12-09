@@ -1,8 +1,5 @@
 package com.kys.poi.mapping;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -13,7 +10,6 @@ import java.util.List;
  * @author kys0213
  * @date   2019. 4. 24.
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CellInfos implements Iterator<CellInfo>, Iterable<CellInfo>{
 
     private final List<CellInfo> mappings = new ArrayList<CellInfo>();
@@ -23,6 +19,8 @@ public class CellInfos implements Iterator<CellInfo>, Iterable<CellInfo>{
     public static CellInfos newInstance(){
         return new CellInfos();
     }
+
+    private CellInfos() {}
 
     @Override
     public void remove() {

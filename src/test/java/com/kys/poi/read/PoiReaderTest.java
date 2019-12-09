@@ -3,8 +3,6 @@ package com.kys.poi.read;
 import com.kys.poi.mapping.CellInfo;
 import com.kys.poi.mapping.CellInfos;
 import com.kys.util.ResourceUtil;
-import lombok.Data;
-import lombok.ToString;
 import org.junit.Test;
 
 import java.io.File;
@@ -28,16 +26,18 @@ public class PoiReaderTest {
             }
         };
 
+        CellInfos cellinfos = cellInfos.add(CellInfo.builder()
+                                                    .fieldName("test1")
+                                                    .build())
+                                        .add(CellInfo.builder()
+                                                     .fieldName("test2")
+                                                     .build());
+
         PoiReader reader = PoiReader.builder(TestVO.class)
                                     .url(ResourceUtil.getURL(getFile().getAbsolutePath() + "/streming_excel_test.xlsx"))
-                                    .cellNames(cellInfos.add(CellInfo.builder()
-                                                                    .fieldName("test1")
-                                                                    .build())
-                                                        .add(CellInfo.builder()
-                                                                    .fieldName("test2")
-                                                                    .build()))
-                                    .singletonObject()
-                                    .firstRowSkip()
+                                    .cellNames(cellinfos)
+                                    .singletonObject()  // TestVO 를 singleton 으로 사용함
+                                    .firstRowSkip()     // 첫번째 row는 skip 함
                                     .poiRowHandler(rowHandler)
                                     .build();
 
@@ -45,7 +45,6 @@ public class PoiReaderTest {
         reader.close();
     }
 
-    @Data
     public static class TestVO {
 
         private String test1;
@@ -61,6 +60,30 @@ public class PoiReaderTest {
                     ", test2='" + test2 + '\'' +
                     ", test3='" + test3 + '\'' +
                     '}';
+        }
+
+        public String getTest1() {
+            return test1;
+        }
+
+        public void setTest1(String test1) {
+            this.test1 = test1;
+        }
+
+        public String getTest2() {
+            return test2;
+        }
+
+        public void setTest2(String test2) {
+            this.test2 = test2;
+        }
+
+        public String getTest3() {
+            return test3;
+        }
+
+        public void setTest3(String test3) {
+            this.test3 = test3;
         }
     }
 }

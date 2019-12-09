@@ -2,12 +2,6 @@ package com.kys.poi.write;
 
 import org.apache.poi.ss.usermodel.CellStyle;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
 public class WriterConfig {
 
     /**
@@ -38,5 +32,23 @@ public class WriterConfig {
     public boolean isMaxRow(int rowIndex) {
         return MAX_ROW <= rowIndex;
     }
-    
+
+    protected WriterConfig(int MAX_ROW, CellStyle titleStyle, CellStyle numberStyle, CellStyle stringStyle) {
+        this.MAX_ROW = MAX_ROW;
+        this.titleStyle = titleStyle;
+        this.numberStyle = numberStyle;
+        this.stringStyle = stringStyle;
+    }
+
+    public CellStyle getTitleStyle() {
+        return titleStyle;
+    }
+
+    public CellStyle getNumberStyle() {
+        return numberStyle;
+    }
+
+    public CellStyle getStringStyle() {
+        return stringStyle;
+    }
 }
